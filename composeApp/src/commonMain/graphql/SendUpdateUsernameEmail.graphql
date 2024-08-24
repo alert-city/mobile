@@ -1,0 +1,3 @@
+mutation SendUpdateUsernameEmail($username: String!, $input: SendUpdateUsernameEmailRequestDto!) {
+    sendUpdateUsernameEmail(username: $username, input: $input)
+}

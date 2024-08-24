@@ -1,0 +1,6 @@
+mutation Generate2FA($issuer: String!, $username: String!) {
+    generate2FA(issuer: $issuer, username: $username) {
+        secret
+        qrCodeUrl
+    }
+}

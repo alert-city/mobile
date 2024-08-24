@@ -1,0 +1,3 @@
+mutation Verify2FACode($username: String!, $code: String!) {
+    verify2FACode(username: $username, code: $code)
+}
