@@ -1,4 +1,4 @@
-package org.cdugroup.alertcity.view
+package org.cdu.codefair.alertcity.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -65,7 +65,7 @@ fun LoginPage(onLoginSuccess: (String) -> Unit) {
             onClick = {
                 errorMessage = null
                 // TODO: verify login from backend 
-                if (username == "user" && password == "password") {
+                if (username == "" && password == "") {
                     onLoginSuccess(username)
                 } else {
                     errorMessage = "Invalid credentials"
