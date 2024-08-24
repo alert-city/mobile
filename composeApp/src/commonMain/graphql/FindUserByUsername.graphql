@@ -1,0 +1,18 @@
+query FindUserByUsername($username: String!) {
+    findUserByUsername(username: $username) {
+        id
+        firstName
+        lastName
+        orgName
+        username
+        displayName
+        accountType
+        role
+        organization
+        staffs
+        mobilePhone
+        avatarUrl
+        is2FAEnabled
+        isAccountActivated
+    }
+}

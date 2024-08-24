@@ -1,0 +1,17 @@
+mutation Login($input: LoginRequestDto!) {
+    login(input: $input) {
+        id
+        firstName
+        lastName
+        orgName
+        username
+        avatarUrl
+        accountType
+        role
+        organization
+        staffs
+        mobilePhone
+        accessToken
+        displayName
+    }
+}

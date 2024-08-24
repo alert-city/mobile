@@ -1,0 +1,18 @@
+query FindOneUser($id: String!) {
+    findOneUser(id: $id) {
+        id
+        firstName
+        lastName
+        orgName
+        username
+        displayName
+        accountType
+        role
+        organization
+        staffs
+        mobilePhone
+        avatarUrl
+        is2FAEnabled
+        isAccountActivated
+    }
+}
