@@ -8,20 +8,47 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+enum class Screen {
+    Login,
+    SignUp,
+    ForgotPassword,
+    Main
+}
+
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        var isLoggedIn by remember { mutableStateOf(false) }
+        var currentScreen by remember { mutableStateOf(Screen.Login) }
         var loggedInUsername by remember { mutableStateOf("") }
 
-        if (isLoggedIn) {
-            MainScreen(username = loggedInUsername)
-        } else {
-            LoginPage(onLoginSuccess = { username ->
-                isLoggedIn = true
-                loggedInUsername = username
-            })
+        when (currentScreen) {
+            Screen.Login -> {
+                LoginPage(
+                    onLoginSuccess = { username ->
+                        loggedInUsername = username
+                        currentScreen = Screen.Main
+                    },
+                    onForgotPassword = { currentScreen = Screen.ForgotPassword },
+                    onSignUp = { currentScreen = Screen.SignUp },
+                )
+            }
+
+            Screen.SignUp -> {
+                SignUpPage {
+//                    currentScreen = Screen.Login
+                }
+            }
+
+            Screen.ForgotPassword -> {
+                ForgotPasswordPage {
+//                    currentScreen = Screen.Login
+                }
+            }
+
+            Screen.Main -> {
+                MainScreen(username = loggedInUsername)
+            }
         }
     }
 }

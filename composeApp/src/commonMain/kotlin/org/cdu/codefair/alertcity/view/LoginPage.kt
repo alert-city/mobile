@@ -1,13 +1,16 @@
 package org.cdu.codefair.alertcity.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -15,17 +18,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import org.cdu.codefair.alertcity.network.GraphQLClient
 
 @Composable
-fun LoginPage(onLoginSuccess: (String) -> Unit) {
+fun LoginPage(
+    onLoginSuccess: (String) -> Unit,
+    onForgotPassword: () -> Unit,
+    onSignUp: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var rememberUsername by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val graphQLClient = remember { GraphQLClient() }
 
     Column(
         modifier = Modifier
@@ -54,6 +67,20 @@ fun LoginPage(onLoginSuccess: (String) -> Unit) {
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = rememberUsername,
+                onCheckedChange = { rememberUsername = it },
+            )
+            Text("Remember Username")
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                "Forgot Password?",
+                style = MaterialTheme.typography.bodyMedium.copy(textDecoration = TextDecoration.Underline),
+                modifier = Modifier.clickable(onClick = onForgotPassword)
+            )
+        }
         Spacer(modifier = Modifier.height(24.dp))
 
         errorMessage?.let {
@@ -64,7 +91,7 @@ fun LoginPage(onLoginSuccess: (String) -> Unit) {
         Button(
             onClick = {
                 errorMessage = null
-                // TODO: verify login from backend 
+                // TODO: verify login infos
                 if (username == "" && password == "") {
                     onLoginSuccess(username)
                 } else {
@@ -75,5 +102,11 @@ fun LoginPage(onLoginSuccess: (String) -> Unit) {
         ) {
             Text("Login")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Sign Up",
+            style = MaterialTheme.typography.bodyMedium.copy(textDecoration = TextDecoration.Underline),
+            modifier = Modifier.clickable { onSignUp() }
+        )
     }
 }
