@@ -104,6 +104,7 @@ apollo {
         generateDataBuilders.set(true)
         generateFragmentImplementations.set(true)
         generateSchema.set(true)
+        generateKotlinModels.set(true)
 
         introspection {
             endpointUrl = "http://192.168.15.134:51004/graphql"

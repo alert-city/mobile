@@ -1,13 +1,16 @@
 package org.cdu.codefair.alertcity.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -15,17 +18,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import org.cdu.codefair.alertcity.LoginMutation
+import org.cdu.codefair.alertcity.network.GraphQLClient
+import org.cdu.codefair.alertcity.type.LoginRequestDto
 
 @Composable
-fun LoginPage(onLoginSuccess: (String) -> Unit) {
+fun LoginPage(
+    onLoginSuccess: (LoginMutation.Login) -> Unit,
+    onForgotPassword: () -> Unit,
+    onSignUp: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isStaySignedIn by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val graphQLClient = remember { GraphQLClient() }
 
     Column(
         modifier = Modifier
@@ -54,6 +70,20 @@ fun LoginPage(onLoginSuccess: (String) -> Unit) {
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = isStaySignedIn,
+                onCheckedChange = { isStaySignedIn = it },
+            )
+            Text("Stay Signed In")
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                "Forgot Password?",
+                style = MaterialTheme.typography.bodyMedium.copy(textDecoration = TextDecoration.Underline),
+                modifier = Modifier.clickable(onClick = onForgotPassword)
+            )
+        }
         Spacer(modifier = Modifier.height(24.dp))
 
         errorMessage?.let {
@@ -64,16 +94,38 @@ fun LoginPage(onLoginSuccess: (String) -> Unit) {
         Button(
             onClick = {
                 errorMessage = null
-                // TODO: verify login from backend
-                if (username == "" && password == "") {
-                    onLoginSuccess(username)
-                } else {
-                    errorMessage = "Invalid credentials"
+
+                scope.launch {
+                    try {
+                        val input = LoginRequestDto(username, password, isStaySignedIn)
+                        val response = graphQLClient.login(input)
+                        val login = response.data?.login
+                        if (login != null) {
+                            onLoginSuccess(login)
+                        } else {
+                            if (response.hasErrors()) {
+                                response.errors?.let { errorMessage = it.first().message }
+                            } else {
+                                response.exception?.let { errorMessage = it.message }
+                            }
+                            if (errorMessage.isNullOrBlank()) {
+                                errorMessage = "Invalid credentials"
+                            }
+                        }
+                    } catch (e: Exception) {
+                        errorMessage = e.message
+                    }
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Login")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Sign Up",
+            style = MaterialTheme.typography.bodyMedium.copy(textDecoration = TextDecoration.Underline),
+            modifier = Modifier.clickable { onSignUp() }
+        )
     }
 }

@@ -10,18 +10,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import org.cdu.codefair.alertcity.LoginMutation
 import org.cdu.codefair.alertcity.network.GraphQLClient
 
 @Composable
-fun MainScreen(username: String) {
+fun MainScreen(user: LoginMutation.Login) {
     val scope = rememberCoroutineScope()
     val networkClient = remember { GraphQLClient() }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Welcome, $username!")
+        Text(text = "Welcome, $user!")
         LaunchedEffect(Unit) {
             println("start fetch data")
             try {
