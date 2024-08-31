@@ -21,9 +21,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.apollographql.apollo.api.Optional
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.cdu.codefair.alertcity.network.GraphQLClient
+import org.cdu.codefair.alertcity.type.UpdateUserRequestDto
+import org.cdu.codefair.alertcity.type.UserNameRequestDto
 
 @Composable
 fun ForgotPasswordPage(onPasswordReset: () -> Unit) {
@@ -72,15 +75,24 @@ fun ForgotPasswordPage(onPasswordReset: () -> Unit) {
             onClick = {
                 scope.launch {
                     try {
-                        val response = graphQLClient.forgotPassword(email)
-                        // TODO: check response
-                        if (true) {
+                        val input = UpdateUserRequestDto(
+                            name = Optional.present(
+                                UserNameRequestDto(
+                                    firstName = Optional.present(""),
+                                    lastName = Optional.present("")
+                                )
+                            ),
+                            username = Optional.present(email),
+                        )
+                        val response = graphQLClient.resetPassword(email, input)
+                        if (response.data?.resetPassword == true) {
                             successMessage = "Validation code sent to your email"
                             codeSent = true
                             // reset countdown
                             countdownTime = 60
                             isCountingDown = true
                         } else {
+                            // TODO: graphql error or response exception
                             errorMessage = "Failed to send validation code"
                         }
                     } catch (e: Exception) {

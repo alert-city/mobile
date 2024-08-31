@@ -1,0 +1,3 @@
+mutation SendVerificationEmail($input: SendVerificationEmailDto!) {
+    sendVerificationEmail(input: $input)
+}

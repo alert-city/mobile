@@ -1,0 +1,20 @@
+query FindAllUsers {
+    findAllUsers {
+        id
+        name {
+            firstName
+            lastName
+        }
+        orgName
+        username
+        displayName
+        accountType
+        role
+        organization
+        staffs
+        mobilePhone
+        avatarUrl
+        is2FAEnabled
+        isAccountActivated
+    }
+}

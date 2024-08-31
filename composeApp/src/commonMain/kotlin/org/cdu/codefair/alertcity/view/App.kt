@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import org.cdu.codefair.alertcity.LoginMutation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 enum class Screen {
@@ -20,13 +21,13 @@ enum class Screen {
 fun App() {
     MaterialTheme {
         var currentScreen by remember { mutableStateOf(Screen.Login) }
-        var loggedInUsername by remember { mutableStateOf("") }
+        var loggedInUser by remember { mutableStateOf<LoginMutation.Login?>(null) }
 
         when (currentScreen) {
             Screen.Login -> {
                 LoginPage(
-                    onLoginSuccess = { username ->
-                        loggedInUsername = username
+                    onLoginSuccess = { info ->
+                        loggedInUser = info
                         currentScreen = Screen.Main
                     },
                     onForgotPassword = { currentScreen = Screen.ForgotPassword },
@@ -47,7 +48,7 @@ fun App() {
             }
 
             Screen.Main -> {
-                MainScreen(username = loggedInUsername)
+                loggedInUser?.let { MainScreen(user = it) }
             }
         }
     }

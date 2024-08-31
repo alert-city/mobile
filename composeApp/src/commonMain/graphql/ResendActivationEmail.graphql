@@ -1,0 +1,3 @@
+mutation ResendActivationEmail($username: String!) {
+    resendActivationEmail(username: $username)
+}

@@ -25,18 +25,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import org.cdu.codefair.alertcity.LoginMutation
 import org.cdu.codefair.alertcity.network.GraphQLClient
+import org.cdu.codefair.alertcity.type.LoginRequestDto
 
 @Composable
 fun LoginPage(
-    onLoginSuccess: (String) -> Unit,
+    onLoginSuccess: (LoginMutation.Login) -> Unit,
     onForgotPassword: () -> Unit,
     onSignUp: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var rememberUsername by remember { mutableStateOf(false) }
+    var isStaySignedIn by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val graphQLClient = remember { GraphQLClient() }
 
@@ -70,10 +73,10 @@ fun LoginPage(
         Spacer(modifier = Modifier.height(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = rememberUsername,
-                onCheckedChange = { rememberUsername = it },
+                checked = isStaySignedIn,
+                onCheckedChange = { isStaySignedIn = it },
             )
-            Text("Remember Username")
+            Text("Stay Signed In")
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 "Forgot Password?",
@@ -91,11 +94,20 @@ fun LoginPage(
         Button(
             onClick = {
                 errorMessage = null
-                // TODO: verify login infos
-                if (username == "" && password == "") {
-                    onLoginSuccess(username)
-                } else {
-                    errorMessage = "Invalid credentials"
+
+                scope.launch {
+                    try {
+                        val input = LoginRequestDto(username, password, isStaySignedIn)
+                        val response = graphQLClient.login(input)
+                        val login = response.data?.login
+                        if (login != null) {
+                            onLoginSuccess(login)
+                        } else {
+                            errorMessage = "Invalid credentials"
+                        }
+                    } catch (e: Exception) {
+                        errorMessage = e.message
+                    }
                 }
             },
             modifier = Modifier.fillMaxWidth()

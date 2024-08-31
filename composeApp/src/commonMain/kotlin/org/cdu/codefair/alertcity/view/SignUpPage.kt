@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.cdu.codefair.alertcity.network.GraphQLClient
+import org.cdu.codefair.alertcity.type.UserRequestDto
 
 @Composable
 fun SignUpPage(onSignUpSuccess: () -> Unit) {
@@ -37,9 +38,7 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
     var successMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -99,12 +98,20 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
 
                 scope.launch {
                     try {
-                        val response = graphQLClient.signUp(username, password)
-                        // TODO: check response
-                        if (true) {
+                        val input = UserRequestDto(
+                            username = username,
+                            password = password,
+                            displayName = "",
+                            accountType = "",
+                            mobilePhone = "",
+                            role = listOf("normal"),
+                        )
+                        val response = graphQLClient.createUser(input)
+                        if (response.data?.createUser != null) {
                             successMessage = "Account created successfully!"
                             onSignUpSuccess()
                         } else {
+                            // TODO: graphql error or response exception
                             errorMessage = "Failed to create account"
                         }
                     } catch (e: Exception) {

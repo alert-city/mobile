@@ -1,0 +1,20 @@
+mutation CreateUser($input: UserRequestDto!) {
+    createUser(input: $input) {
+        id
+        name {
+            firstName
+            lastName
+        }
+        orgName
+        username
+        displayName
+        accountType
+        role
+        organization
+        staffs
+        mobilePhone
+        accessToken
+        is2FAEnabled
+        avatarUrl
+    }
+}
