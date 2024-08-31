@@ -103,7 +103,14 @@ fun LoginPage(
                         if (login != null) {
                             onLoginSuccess(login)
                         } else {
-                            errorMessage = "Invalid credentials"
+                            if (response.hasErrors()) {
+                                response.errors?.let { errorMessage = it.first().message }
+                            } else {
+                                response.exception?.let { errorMessage = it.message }
+                            }
+                            if (errorMessage.isNullOrBlank()) {
+                                errorMessage = "Invalid credentials"
+                            }
                         }
                     } catch (e: Exception) {
                         errorMessage = e.message
