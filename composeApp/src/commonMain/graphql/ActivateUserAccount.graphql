@@ -1,3 +1,0 @@
-mutation ActivateUserAccount($token: String!) {
-    activateUserAccount(token: $token)
-}

@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.apollographql.apollo.api.Optional
 import kotlinx.coroutines.launch
 import org.cdu.codefair.alertcity.network.GraphQLClient
-import org.cdu.codefair.alertcity.type.UserNameRequestDto
 import org.cdu.codefair.alertcity.type.UserRequestDto
 
 private enum class AccountType(val type: String) {
@@ -50,6 +49,7 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
     var lastName by remember { mutableStateOf("") }
     var organizationName by remember { mutableStateOf("") }
     var mobilePhone by remember { mutableStateOf("") }
+    var emailInfoType by remember { mutableStateOf(1.0) }
 
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var successMessage by remember { mutableStateOf<String?>(null) }
@@ -193,12 +193,13 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
                             orgName = if (accountType == AccountType.Organization) Optional.present(
                                 organizationName
                             ) else Optional.absent(),
-                            name = if (accountType == AccountType.Personal) Optional.present(
-                                UserNameRequestDto(
-                                    Optional.present(firstName),
-                                    Optional.present(lastName)
-                                )
-                            ) else Optional.absent()
+                            firstName = if (accountType == AccountType.Personal) Optional.present(
+                                firstName
+                            ) else Optional.absent(),
+                            lastName = if (accountType == AccountType.Personal) Optional.present(
+                                lastName
+                            ) else Optional.absent(),
+                            emailInfoType = emailInfoType,
                         )
                         val response = graphQLClient.createUser(input)
                         if (response.data?.createUser != null) {

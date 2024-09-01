@@ -1,10 +1,8 @@
 query FindOneUser($id: String!) {
     findOneUser(id: $id) {
         id
-        name {
-            firstName
-            lastName
-        }
+        firstName
+        lastName
         orgName
         username
         displayName

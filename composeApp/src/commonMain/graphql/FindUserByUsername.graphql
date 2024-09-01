@@ -1,5 +1,5 @@
-mutation UpdateUser($id: String!, $input: UpdateUserRequestDto!) {
-    updateUser(id: $id, input: $input) {
+query FindUserByUsername($username: String!) {
+    findUserByUsername(username: $username) {
         id
         firstName
         lastName

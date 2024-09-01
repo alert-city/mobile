@@ -26,7 +26,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.cdu.codefair.alertcity.network.GraphQLClient
 import org.cdu.codefair.alertcity.type.UpdateUserRequestDto
-import org.cdu.codefair.alertcity.type.UserNameRequestDto
 
 @Composable
 fun ForgotPasswordPage(onPasswordReset: () -> Unit) {
@@ -76,12 +75,6 @@ fun ForgotPasswordPage(onPasswordReset: () -> Unit) {
                 scope.launch {
                     try {
                         val input = UpdateUserRequestDto(
-                            name = Optional.present(
-                                UserNameRequestDto(
-                                    firstName = Optional.present(""),
-                                    lastName = Optional.present("")
-                                )
-                            ),
                             username = Optional.present(email),
                         )
                         val response = graphQLClient.resetPassword(email, input)

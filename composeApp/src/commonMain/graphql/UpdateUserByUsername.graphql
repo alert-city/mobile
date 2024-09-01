@@ -1,5 +1,5 @@
-mutation UpdateUser($id: String!, $input: UpdateUserRequestDto!) {
-    updateUser(id: $id, input: $input) {
+mutation UpdateUserByUsername($username: String!, $input: UpdateUserRequestDto!) {
+    updateUserByUsername(username: $username, input: $input) {
         id
         firstName
         lastName

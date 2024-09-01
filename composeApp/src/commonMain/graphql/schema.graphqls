@@ -1,17 +1,15 @@
-type UserNameResponseDto {
-  firstName: String
-
-  lastName: String
-}
-
 type LoginResponseDto {
   id: ID!
 
-  name: UserNameResponseDto
+  firstName: String
+
+  lastName: String
 
   orgName: String
 
-  username: String
+  username: String!
+
+  avatarUrl: String
 
   accountType: String!
 
@@ -37,7 +35,9 @@ type TwoFADto {
 type UserResponseDto {
   id: ID!
 
-  name: UserNameResponseDto
+  firstName: String
+
+  lastName: String
 
   orgName: String
 
@@ -63,26 +63,22 @@ type UserResponseDto {
 
   avatarUrl: String
 
-  is2FAEnabled: Boolean!
+  is2FAEnabled: Boolean
 
-  twoFASecret: String!
+  twoFASecret: String
 
   isAccountActivated: Boolean
 }
 
 type Query {
-  downloadFile(fileId: String!): String!
-
   findAllUsers: [UserResponseDto!]!
 
   findOneUser(id: String!): UserResponseDto!
+
+  findUserByUsername(username: String!): UserResponseDto!
 }
 
 type Mutation {
-  uploadFile(file: Upload!): String!
-
-  deleteFile(fileId: String!): Boolean!
-
   login(input: LoginRequestDto!): LoginResponseDto!
 
   revokeTokens: Boolean!
@@ -97,21 +93,18 @@ type Mutation {
 
   deleteUser(id: String!): Boolean!
 
-  sendVerificationEmail(input: SendVerificationEmailDto!): Boolean!
+  sendVerificationCodeEmail(input: SendVerificationEmailDto!): Boolean!
 
   resetPassword(username: String!, input: UpdateUserRequestDto!): Boolean!
 
   updateUserByUsername(username: String!, input: UpdateUserRequestDto!): UserResponseDto!
 
-  activateUserAccount(token: String!): Boolean!
+  validateEmailLink(token: String!, emailInfoType: Int!): Boolean!
 
-  resendActivationEmail(username: String!): Boolean!
+  resendActivationLinkEmail(username: String!, emailInfoType: Int!, newUsername: String): Boolean!
+
+  sendUpdateUsernameEmail(username: String!, input: SendUpdateUsernameEmailRequestDto!): Boolean!
 }
-
-"""
-The `Upload` scalar type represents a file upload.
-"""
-scalar Upload
 
 input LoginRequestDto {
   username: String!
@@ -122,7 +115,9 @@ input LoginRequestDto {
 }
 
 input UserRequestDto {
-  name: UserNameRequestDto
+  firstName: String
+
+  lastName: String
 
   orgName: String
 
@@ -147,16 +142,14 @@ input UserRequestDto {
   verificationCode: String
 
   is2FAEnabled: Boolean
-}
 
-input UserNameRequestDto {
-  firstName: String
-
-  lastName: String
+  emailInfoType: Float!
 }
 
 input UpdateUserRequestDto {
-  name: UserNameRequestDto
+  firstName: String
+
+  lastName: String
 
   orgName: String
 
@@ -195,6 +188,14 @@ input UpdateUserRequestDto {
 
 input SendVerificationEmailDto {
   username: String!
+
+  emailInfoType: Float!
+}
+
+input SendUpdateUsernameEmailRequestDto {
+  newUsername: String!
+
+  emailInfoType: Float!
 }
 
 """

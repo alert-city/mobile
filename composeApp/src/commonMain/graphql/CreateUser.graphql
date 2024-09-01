@@ -1,10 +1,8 @@
 mutation CreateUser($input: UserRequestDto!) {
     createUser(input: $input) {
         id
-        name {
-            firstName
-            lastName
-        }
+        firstName
+        lastName
         orgName
         username
         displayName
@@ -13,8 +11,10 @@ mutation CreateUser($input: UserRequestDto!) {
         organization
         staffs
         mobilePhone
-        accessToken
-        is2FAEnabled
         avatarUrl
+        is2FAEnabled
+        isAccountActivated
+        accessToken
+        refreshToken
     }
 }

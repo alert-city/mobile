@@ -1,12 +1,11 @@
 mutation Login($input: LoginRequestDto!) {
     login(input: $input) {
         id
-        name {
-            firstName
-            lastName
-        }
+        firstName
+        lastName
         orgName
         username
+        avatarUrl
         accountType
         role
         organization
