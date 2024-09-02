@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import org.cdu.codefair.alertcity.LoginMutation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-enum class Screen {
+enum class Page {
     Login,
     SignUp,
     ForgotPassword,
@@ -20,35 +20,35 @@ enum class Screen {
 @Preview
 fun App() {
     MaterialTheme {
-        var currentScreen by remember { mutableStateOf(Screen.Login) }
+        var currentPage by remember { mutableStateOf(Page.Main) }
         var loggedInUser by remember { mutableStateOf<LoginMutation.Login?>(null) }
 
-        when (currentScreen) {
-            Screen.Login -> {
+        when (currentPage) {
+            Page.Login -> {
                 LoginPage(
                     onLoginSuccess = { info ->
                         loggedInUser = info
-                        currentScreen = Screen.Main
+                        currentPage = Page.Main
                     },
-                    onForgotPassword = { currentScreen = Screen.ForgotPassword },
-                    onSignUp = { currentScreen = Screen.SignUp },
+                    onForgotPassword = { currentPage = Page.ForgotPassword },
+                    onSignUp = { currentPage = Page.SignUp },
                 )
             }
 
-            Screen.SignUp -> {
+            Page.SignUp -> {
                 SignUpPage {
 //                    currentScreen = Screen.Login
                 }
             }
 
-            Screen.ForgotPassword -> {
+            Page.ForgotPassword -> {
                 ForgotPasswordPage {
 //                    currentScreen = Screen.Login
                 }
             }
 
-            Screen.Main -> {
-                loggedInUser?.let { MainScreen(user = it) }
+            Page.Main -> {
+                MainPage(user = loggedInUser)
             }
         }
     }
