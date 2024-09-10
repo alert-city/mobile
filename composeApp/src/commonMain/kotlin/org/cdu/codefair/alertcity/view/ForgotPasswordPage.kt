@@ -21,11 +21,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.apollographql.apollo.api.Optional
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.cdu.codefair.alertcity.network.GraphQLClient
-import org.cdu.codefair.alertcity.type.UpdateUserRequestDto
+import org.cdu.codefair.alertcity.type.ResetPasswordRequestDto
 
 @Composable
 fun ForgotPasswordPage(onPasswordReset: () -> Unit) {
@@ -74,8 +73,9 @@ fun ForgotPasswordPage(onPasswordReset: () -> Unit) {
             onClick = {
                 scope.launch {
                     try {
-                        val input = UpdateUserRequestDto(
-                            username = Optional.present(email),
+                        // TODO: update verification code and password
+                        val input = ResetPasswordRequestDto(
+                            verificationCode = validationCode, password = "", confirmPassword = ""
                         )
                         val response = graphQLClient.resetPassword(email, input)
                         if (response.data?.resetPassword == true) {

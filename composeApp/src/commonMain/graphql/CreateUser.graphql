@@ -10,11 +10,12 @@ mutation CreateUser($input: UserRequestDto!) {
         role
         organization
         staffs
-        mobilePhone
+        phoneNumber
         avatarUrl
         is2FAEnabled
         isAccountActivated
         accessToken
         refreshToken
+        isFirstLogin
     }
 }

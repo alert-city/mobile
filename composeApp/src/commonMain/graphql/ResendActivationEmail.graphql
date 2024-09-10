@@ -1,3 +1,3 @@
-mutation ResendActivationLinkEmail($username: String!, $emailInfoType: Int!, $newUsername: String) {
-    resendActivationLinkEmail(username: $username, emailInfoType: $emailInfoType, newUsername: $newUsername)
+mutation ResendActivationLinkEmail($id: String!, $emailInfoType: Int!, $newUsername: String) {
+    resendActivationLinkEmail(id: $id, emailInfoType: $emailInfoType, newUsername: $newUsername)
 }

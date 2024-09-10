@@ -1,0 +1,15 @@
+query FindEventsBySubmitter($submitter: String!) {
+    findEventsBySubmitter(submitter: $submitter) {
+        id
+        eventType
+        date
+        time
+        location
+        subject
+        matter
+        ERTime
+        ERDate
+        submitter
+        orgName
+    }
+}

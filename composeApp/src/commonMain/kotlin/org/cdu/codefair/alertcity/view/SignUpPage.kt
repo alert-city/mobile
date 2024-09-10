@@ -49,7 +49,7 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
     var lastName by remember { mutableStateOf("") }
     var emailInfoType by remember { mutableStateOf(1) }
     var organizationName by remember { mutableStateOf("") }
-    var mobilePhone by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
 
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var successMessage by remember { mutableStateOf<String?>(null) }
@@ -157,9 +157,9 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
         Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = mobilePhone,
-            onValueChange = { mobilePhone = it },
-            label = { Text("Mobile Phone") },
+            value = phoneNumber,
+            onValueChange = { phoneNumber = it },
+            label = { Text("Phone Number") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -174,7 +174,7 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
                 if (username.isBlank() || displayName.isBlank() || password.isBlank() ||
                     (accountType == AccountType.Personal && (firstName.isBlank() || lastName.isBlank())) ||
                     (accountType == AccountType.Organization && organizationName.isBlank()) ||
-                    mobilePhone.isBlank()
+                    phoneNumber.isBlank()
                 ) {
                     errorMessage = "All fields are required"
                     return@Button
@@ -190,7 +190,7 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
                             confirmPassword = Optional.present(confirmPassword),
                             displayName = displayName,
                             accountType = accountType.type,
-                            mobilePhone = mobilePhone,
+                            phoneNumber = phoneNumber,
                             role = listOf(accountType.type),
                             orgName = if (accountType == AccountType.Organization) Optional.present(
                                 organizationName
@@ -201,6 +201,8 @@ fun SignUpPage(onSignUpSuccess: () -> Unit) {
                             lastName = if (accountType == AccountType.Personal) Optional.present(
                                 lastName
                             ) else Optional.absent(),
+                            // TODO: implement captcha token, but might be unnecessary
+                            captchaToken = "",
                             emailInfoType = emailInfoType.toDouble()
                         )
                         val response = graphQLClient.createUser(input)

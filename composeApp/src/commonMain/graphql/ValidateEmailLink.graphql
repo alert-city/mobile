@@ -1,3 +1,0 @@
-mutation ValidateEmailLink($token: String!, $emailInfoType: Int!) {
-    validateEmailLink(token: $token, emailInfoType: $emailInfoType)
-}

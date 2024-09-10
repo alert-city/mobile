@@ -1,5 +1,5 @@
-mutation Generate2FA($issuer: String!, $username: String!) {
-    generate2FA(issuer: $issuer, username: $username) {
+mutation Generate2FA($issuer: String!, $id: String!) {
+    generate2FA(issuer: $issuer, id: $id) {
         secret
         qrCodeUrl
     }
