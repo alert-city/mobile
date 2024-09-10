@@ -1,0 +1,15 @@
+query FindEventsByDate($date_: String!) {
+    findEventsByDate(date_: $date_) {
+        id
+        eventType
+        date
+        time
+        location
+        subject
+        matter
+        ERTime
+        ERDate
+        submitter
+        orgName
+    }
+}

@@ -1,0 +1,15 @@
+query FindAllEvents {
+    findAllEvents {
+        id
+        eventType
+        date
+        time
+        location
+        subject
+        matter
+        ERTime
+        ERDate
+        submitter
+        orgName
+    }
+}

@@ -19,11 +19,13 @@ type LoginResponseDto {
 
   staffs: [String!]
 
-  mobilePhone: String
+  phoneNumber: String
 
   accessToken: String
 
   displayName: String
+
+  isFirstLogin: Boolean
 }
 
 type TwoFADto {
@@ -55,7 +57,7 @@ type UserResponseDto {
 
   staffs: [String!]
 
-  mobilePhone: String!
+  phoneNumber: String!
 
   refreshToken: String
 
@@ -68,6 +70,32 @@ type UserResponseDto {
   twoFASecret: String
 
   isAccountActivated: Boolean
+
+  isFirstLogin: Boolean
+}
+
+type EventDto {
+  id: ID!
+
+  eventType: String!
+
+  date: String!
+
+  time: String!
+
+  location: String
+
+  subject: String!
+
+  matter: String!
+
+  ERTime: String
+
+  ERDate: String
+
+  submitter: String!
+
+  orgName: String
 }
 
 type Query {
@@ -76,6 +104,16 @@ type Query {
   findOneUser(id: String!): UserResponseDto!
 
   findUserByUsername(username: String!): UserResponseDto!
+
+  findAllEvents: [EventDto!]!
+
+  findEventsByType(eventType: String!): [EventDto!]!
+
+  findEventsByDate(date_: String!): [EventDto!]!
+
+  findEventsBySubmitter(submitter: String!): [EventDto!]!
+
+  findEventsByOrgName(orgName: String!): [EventDto!]!
 }
 
 type Mutation {
@@ -83,27 +121,27 @@ type Mutation {
 
   revokeTokens: Boolean!
 
-  generate2FA(issuer: String!, username: String!): TwoFADto!
+  generate2FA(issuer: String!, id: String!): TwoFADto!
 
-  verify2FACode(username: String!, code: String!): Boolean!
+  verify2FACode(id: String!, code: String!): Boolean!
 
   createUser(input: UserRequestDto!): UserResponseDto!
 
-  updateUser(id: String!, input: UpdateUserRequestDto!): UserResponseDto!
+  updateUser(id: String!, input: UpdateUserRequestDto!): Boolean!
 
   deleteUser(id: String!): Boolean!
 
-  sendVerificationCodeEmail(input: SendVerificationEmailDto!): Boolean!
+  sendVerificationCodeEmail(username: String!, emailInfoType: Int!): Boolean!
 
-  resetPassword(username: String!, input: UpdateUserRequestDto!): Boolean!
-
-  updateUserByUsername(username: String!, input: UpdateUserRequestDto!): UserResponseDto!
+  resetPassword(username: String!, input: ResetPasswordRequestDto!): Boolean!
 
   validateEmailLink(token: String!, emailInfoType: Int!): Boolean!
 
-  resendActivationLinkEmail(username: String!, emailInfoType: Int!, newUsername: String): Boolean!
+  resendActivationLinkEmail(id: String!, emailInfoType: Int!, newUsername: String): Boolean!
 
-  sendUpdateUsernameEmail(username: String!, input: SendUpdateUsernameEmailRequestDto!): Boolean!
+  sendUpdateUsernameEmail(id: String!, input: SendUpdateUsernameEmailRequestDto!): Boolean!
+
+  createEvent(input: CreateEventInput!): EventDto!
 }
 
 input LoginRequestDto {
@@ -137,13 +175,17 @@ input UserRequestDto {
 
   staffs: [String!]
 
-  mobilePhone: String!
+  phoneNumber: String!
 
   verificationCode: String
 
   is2FAEnabled: Boolean
 
+  twoFASecret: String
+
   emailInfoType: Float!
+
+  captchaToken: String!
 }
 
 input UpdateUserRequestDto {
@@ -169,11 +211,13 @@ input UpdateUserRequestDto {
 
   staffs: [String!]
 
-  mobilePhone: String
+  phoneNumber: String
 
   verificationCode: String
 
   is2FAEnabled: Boolean
+
+  twoFASecret: String
 
   refreshToken: String
 
@@ -181,21 +225,45 @@ input UpdateUserRequestDto {
 
   avatarUrl: String
 
-  twoFASecret: String
-
   isAccountActivated: Boolean
+
+  isFirstLogin: Boolean
 }
 
-input SendVerificationEmailDto {
-  username: String!
+input ResetPasswordRequestDto {
+  verificationCode: String!
 
-  emailInfoType: Float!
+  password: String!
+
+  confirmPassword: String!
 }
 
 input SendUpdateUsernameEmailRequestDto {
   newUsername: String!
 
   emailInfoType: Float!
+}
+
+input CreateEventInput {
+  eventType: String!
+
+  date: String!
+
+  time: String!
+
+  location: String
+
+  subject: String!
+
+  matter: String!
+
+  ERTime: String
+
+  ERDate: String
+
+  submitter: String!
+
+  orgName: String
 }
 
 """
