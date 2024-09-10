@@ -3,6 +3,7 @@ package org.cdu.codefair.alertcity.network
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
+import org.cdu.codefair.alertcity.BuildKonfig
 import org.cdu.codefair.alertcity.CreateUserMutation
 import org.cdu.codefair.alertcity.DeleteUserMutation
 import org.cdu.codefair.alertcity.FindAllUsersQuery
@@ -27,7 +28,7 @@ import org.cdu.codefair.alertcity.type.UserRequestDto
 
 class GraphQLClient {
     private val apolloClient =
-        ApolloClient.Builder().serverUrl("http://192.168.15.134:51004/graphql").build()
+        ApolloClient.Builder().serverUrl(BuildKonfig.BACKEND_URL).build()
 
     suspend fun createUser(input: UserRequestDto): ApolloResponse<CreateUserMutation.Data> {
         return apolloClient.mutation(CreateUserMutation(input)).execute()
