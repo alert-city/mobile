@@ -9,3 +9,6 @@ captures
 .cxx
 local.properties
 xcuserdata
+*.jks
+signing.properties
+composeApp/release

@@ -1,5 +1,17 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+
+// Load local properties
+val localProperties = Properties()
+runCatching { localProperties.load(rootProject.file("local.properties").inputStream()) }
+    .getOrElse { it.printStackTrace() }
+
+// Load signing properties from the signing.properties file
+val signingProperties = Properties()
+val signingPropertiesFile = rootProject.file("signing.properties")
+runCatching { signingProperties.load(signingPropertiesFile.inputStream()) }
+    .getOrElse { it.printStackTrace() }
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -79,6 +91,14 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    signingConfigs {
+        create("release") {
+            keyAlias = signingProperties["RELEASE_KEY_ALIAS"] as String
+            keyPassword = signingProperties["RELEASE_KEY_PASSWORD"] as String
+            storeFile = file(signingProperties["RELEASE_KEYSTORE_FILE"] as String)
+            storePassword = signingProperties["RELEASE_KEYSTORE_PASSWORD"] as String
         }
     }
     buildTypes {
