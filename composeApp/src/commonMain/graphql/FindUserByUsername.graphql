@@ -10,9 +10,10 @@ query FindUserByUsername($username: String!) {
         role
         organization
         staffs
-        mobilePhone
+        phoneNumber
         avatarUrl
         is2FAEnabled
         isAccountActivated
+        isFirstLogin
     }
 }

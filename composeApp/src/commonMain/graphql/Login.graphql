@@ -10,8 +10,9 @@ mutation Login($input: LoginRequestDto!) {
         role
         organization
         staffs
-        mobilePhone
+        phoneNumber
         accessToken
         displayName
+        isFirstLogin
     }
 }

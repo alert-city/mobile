@@ -1,0 +1,15 @@
+query FindEventsByType($eventType: String!) {
+    findEventsByType(eventType: $eventType) {
+        id
+        eventType
+        date
+        time
+        location
+        subject
+        matter
+        ERTime
+        ERDate
+        submitter
+        orgName
+    }
+}

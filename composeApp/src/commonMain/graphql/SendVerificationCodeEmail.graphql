@@ -1,3 +1,3 @@
-mutation SendVerificationCodeEmail($input: SendVerificationEmailDto!) {
-    sendVerificationCodeEmail(input: $input)
+mutation SendVerificationCodeEmail($username: String!, $emailInfoType: Int!) {
+    sendVerificationCodeEmail(username: $username, emailInfoType: $emailInfoType)
 }

@@ -1,0 +1,15 @@
+query FindEventsByOrgName($orgName: String!) {
+    findEventsByOrgName(orgName: $orgName) {
+        id
+        eventType
+        date
+        time
+        location
+        subject
+        matter
+        ERTime
+        ERDate
+        submitter
+        orgName
+    }
+}

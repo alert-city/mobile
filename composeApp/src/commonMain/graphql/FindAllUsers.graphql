@@ -10,9 +10,10 @@ query FindAllUsers {
         role
         organization
         staffs
-        mobilePhone
+        phoneNumber
         avatarUrl
         is2FAEnabled
         isAccountActivated
+        isFirstLogin
     }
 }

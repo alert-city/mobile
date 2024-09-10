@@ -1,18 +1,3 @@
 mutation UpdateUser($id: String!, $input: UpdateUserRequestDto!) {
-    updateUser(id: $id, input: $input) {
-        id
-        firstName
-        lastName
-        orgName
-        username
-        displayName
-        accountType
-        role
-        organization
-        staffs
-        mobilePhone
-        avatarUrl
-        is2FAEnabled
-        isAccountActivated
-    }
+    updateUser(id: $id, input: $input)
 }
