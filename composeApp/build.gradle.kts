@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
@@ -20,6 +21,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
@@ -77,9 +79,16 @@ android {
     namespace = "org.cdu.codefair.alertcity"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            res.srcDirs("src/androidMain/res")
+            resources.srcDirs("src/commonMain/resources")
+        }
+        getByName("debug") {
+            manifest.srcFile("src/androidDebug/AndroidManifest.xml")
+        }
+    }
 
     defaultConfig {
         applicationId = "org.cdu.codefair.alertcity"
@@ -129,8 +138,21 @@ apollo {
         generateKotlinModels.set(true)
 
         introspection {
-            endpointUrl = "http://192.168.15.134:51004/graphql"
+            endpointUrl = localProperties["BACKEND_URL"] as String
             schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
         }
     }
+}
+
+buildkonfig {
+    packageName = "org.cdu.codefair.alertcity"
+
+    defaultConfigs {
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "BACKEND_URL",
+            localProperties["BACKEND_URL"]?.toString() ?: ""
+        )
+    }
+
 }
