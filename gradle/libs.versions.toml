@@ -3,7 +3,7 @@ agp = "8.5.2"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
-androidx-activityCompose = "1.9.1"
+androidx-activityCompose = "1.9.2"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.1.4"
 androidx-core-ktx = "1.13.1"
@@ -20,6 +20,9 @@ kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.7.1"
 apollo = "4.0.0"
 buildkonfig = "0.15.2"
+android-maps-utils = "3.8.2"
+maps-utils-ktx = "5.1.1"
+google-maps-compose = "6.1.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,6 +49,9 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+android-maps-utils = { group = "com.google.maps.android", name = "android-maps-utils", version.ref = "android-maps-utils" }
+maps-utils-ktx = { group = "com.google.maps.android", name = "maps-utils-ktx", version.ref = "maps-utils-ktx" }
+maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "google-maps-compose" }
 apollo-adapters = { group = "com.apollographql.apollo", name = "apollo-adapters", version.ref = "apollo" }
 apollo-normalized-cache-in-memory = { group = "com.apollographql.apollo", name = "apollo-normalized-cache" }
 apollo-normalized-cache-sqlite = { group = "com.apollographql.apollo", name = "apollo-normalized-cache-sqlite" }

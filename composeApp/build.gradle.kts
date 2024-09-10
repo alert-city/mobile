@@ -49,6 +49,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.android.maps.utils)
+            implementation(libs.maps.utils.ktx)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -68,6 +70,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.apollo.runtime)
+            implementation(libs.maps.compose)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -96,6 +99,9 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        // Add the Google Maps API key to AndroidManifest
+        manifestPlaceholders["mapsApiKey"] = "${localProperties["GOOGLE_MAPS_API_KEY"]}"
     }
     packaging {
         resources {
