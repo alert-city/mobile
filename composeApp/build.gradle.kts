@@ -51,6 +51,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.android.maps.utils)
             implementation(libs.maps.utils.ktx)
+            implementation(libs.accompanist.permissions)
+            implementation(libs.play.services.location)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -69,6 +71,7 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.navigation.compose)
             implementation(libs.apollo.runtime)
             implementation(libs.maps.compose)
         }

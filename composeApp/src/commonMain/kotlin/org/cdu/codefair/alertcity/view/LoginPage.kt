@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import org.cdu.codefair.alertcity.LoginMutation
 import org.cdu.codefair.alertcity.network.GraphQLClient
@@ -32,6 +33,7 @@ import org.cdu.codefair.alertcity.type.LoginRequestDto
 
 @Composable
 fun LoginPage(
+    navController: NavHostController,
     onLoginSuccess: (LoginMutation.Login) -> Unit,
     onForgotPassword: () -> Unit,
     onSignUp: () -> Unit,

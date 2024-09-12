@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import org.cdu.codefair.alertcity.LoginMutation
 
 // Sealed class representing each screen in the navigation bar
@@ -45,7 +46,7 @@ val navItems = listOf(
 )
 
 @Composable
-fun MainPage(user: LoginMutation.Login?) {
+fun MainPage(navController: NavHostController, user: LoginMutation.Login?) {
     // state to keep track of the current page view
     var currentView by remember { mutableStateOf<Subpage>(Subpage.Events) }
 
@@ -79,7 +80,7 @@ fun MainPage(user: LoginMutation.Login?) {
     }) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
             when (currentView) {
-                Subpage.Events -> EventsView()
+                Subpage.Events -> EventsView(navController)
                 Subpage.Report -> ReportView()
                 Subpage.Map -> MapView()
                 Subpage.Help -> HelpView()
