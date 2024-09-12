@@ -26,6 +26,7 @@ import org.cdu.codefair.alertcity.SendUpdateUsernameEmailMutation
 import org.cdu.codefair.alertcity.SendVerificationCodeEmailMutation
 import org.cdu.codefair.alertcity.UpdateUserMutation
 import org.cdu.codefair.alertcity.Verify2FACodeMutation
+import org.cdu.codefair.alertcity.getPlatform
 import org.cdu.codefair.alertcity.type.CreateEventInput
 import org.cdu.codefair.alertcity.type.LoginRequestDto
 import org.cdu.codefair.alertcity.type.ResetPasswordRequestDto
@@ -41,7 +42,7 @@ class GraphQLClient {
     }
 
     suspend fun createUser(input: UserRequestDto): ApolloResponse<CreateUserMutation.Data> {
-        return apolloClient.mutation(CreateUserMutation(input)).execute()
+        return apolloClient.mutation(CreateUserMutation(input, getPlatform())).execute()
     }
 
     suspend fun deleteUser(id: String): ApolloResponse<DeleteUserMutation.Data> {

@@ -74,6 +74,12 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.apollo.runtime)
             implementation(libs.maps.compose)
+            implementation(libs.multiplatform.settings)
+            implementation(libs.multiplatform.settings.no.arg)
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

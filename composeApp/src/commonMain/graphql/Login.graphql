@@ -1,3 +1,4 @@
+# Login.graphql
 mutation Login($input: LoginRequestDto!) {
     login(input: $input) {
         id
@@ -5,14 +6,20 @@ mutation Login($input: LoginRequestDto!) {
         lastName
         orgName
         username
-        avatarUrl
+        displayName
         accountType
         role
         organization
         staffs
         phoneNumber
+        refreshToken
         accessToken
-        displayName
+        avatarUrl
+        is2FAEnabled
+        twoFASecret
+        isAccountActivated
         isFirstLogin
+        googleId
+        facebookId
     }
 }
