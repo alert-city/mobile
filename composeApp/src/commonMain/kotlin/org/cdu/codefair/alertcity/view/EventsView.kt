@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import org.cdu.codefair.alertcity.navigation.Routes
 import org.cdu.codefair.alertcity.network.GraphQLClient
 import org.cdu.codefair.alertcity.network.model.Event
 
@@ -104,8 +106,9 @@ fun EventItem(navController: NavController, event: Event) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
-            .clickable { navController.navigate(Page.EventDetails.name + "/${event.id}") }, // Navigate to EventDetailsPage
-//        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            // Navigate to EventDetailsPage
+            .clickable { navController.navigate("${Routes.EVENT_DETAILS}/${event.id}") },
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
             Text(

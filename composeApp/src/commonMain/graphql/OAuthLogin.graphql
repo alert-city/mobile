@@ -1,6 +1,6 @@
-# FindAllUsers.graphql
-query FindAllUsers {
-    findAllUsers {
+# OAuthLogin.graphql
+mutation OAuthLogin($input: OAuthLoginRequestDto!) {
+    OAuthLogin(input: $input) {
         id
         firstName
         lastName

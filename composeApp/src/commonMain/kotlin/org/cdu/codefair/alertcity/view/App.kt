@@ -5,25 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import org.cdu.codefair.alertcity.LoginMutation
+import org.cdu.codefair.alertcity.navigation.Routes
+import org.cdu.codefair.alertcity.viewmodel.AuthViewModel
+import org.cdu.codefair.alertcity.viewmodel.AuthViewModelFactory
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-enum class Page {
-    Login,
-    SignUp,
-    ForgotPassword,
-    Main,
-    EventDetails,
-}
 
 @Composable
 @Preview
@@ -37,38 +29,30 @@ fun App() {
 }
 
 @Composable
-fun AppNavHost(navController: NavHostController) {
-    var currentPage by remember { mutableStateOf(Page.Main) }
-    var loggedInUser by remember { mutableStateOf<LoginMutation.Login?>(null) }
-
-    NavHost(navController, Page.Main.name) {
-        composable(Page.Main.name) {
-            MainPage(navController, user = loggedInUser)
+fun AppNavHost(
+    navController: NavHostController,
+    authViewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory())
+) {
+    NavHost(navController, Routes.MAIN) {
+        composable(Routes.MAIN) {
+            MainPage(navController, authViewModel = authViewModel)
         }
-        composable(Page.Login.name) {
-            LoginPage(
-                navController,
-                onLoginSuccess = { info ->
-                    loggedInUser = info
-                    currentPage = Page.Main
-                },
-                onForgotPassword = { currentPage = Page.ForgotPassword },
-                onSignUp = { currentPage = Page.SignUp },
-            )
+        composable("${Routes.MAIN}/{pageId}") { backStackEntry ->
+            val pageId = backStackEntry.arguments?.getString("pageId")
+            MainPage(navController, pageId, authViewModel = authViewModel)
         }
-        composable(Page.SignUp.name) {
-            SignUpPage(navController) {
-//                    currentScreen = Screen.Login
-            }
+        composable(Routes.LOGIN) {
+            LoginPage(navController, authViewModel)
         }
-        composable(Page.ForgotPassword.name) {
-            ForgotPasswordPage(navController) {
-//                    currentScreen = Screen.Login
-            }
+        composable(Routes.SIGNUP) {
+            SignUpPage(navController, authViewModel)
         }
-        composable(Page.EventDetails.name + "/{eventId}") { backStackEntry ->
+        composable(Routes.FORGOT_PASSWORD) {
+            ForgotPasswordPage(navController, authViewModel)
+        }
+        composable("${Routes.EVENT_DETAILS}/{eventId}") { backStackEntry ->
             val eventId = backStackEntry.arguments?.getString("eventId")
-            EventDetailsPage(navController, eventId)
+            EventDetailsPage(navController, eventId, authViewModel)
         }
     }
 }

@@ -1,3 +1,4 @@
+# FindUserByUsername.graphql
 query FindUserByUsername($username: String!) {
     findUserByUsername(username: $username) {
         id
@@ -11,9 +12,14 @@ query FindUserByUsername($username: String!) {
         organization
         staffs
         phoneNumber
+        refreshToken
+        accessToken
         avatarUrl
         is2FAEnabled
+        twoFASecret
         isAccountActivated
         isFirstLogin
+        googleId
+        facebookId
     }
 }

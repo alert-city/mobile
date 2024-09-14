@@ -26,10 +26,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import org.cdu.codefair.alertcity.network.GraphQLClient
 import org.cdu.codefair.alertcity.network.model.Event
+import org.cdu.codefair.alertcity.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventDetailsPage(navController: NavHostController, eventId: String?) {
+fun EventDetailsPage(
+    navController: NavHostController,
+    eventId: String?,
+    authViewModel: AuthViewModel
+) {
     val client = remember { GraphQLClient() }
     var event by remember { mutableStateOf<Event?>(null) }
     var isLoading by remember { mutableStateOf(true) }

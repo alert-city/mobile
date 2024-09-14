@@ -1,5 +1,6 @@
-mutation CreateUser($input: UserRequestDto!) {
-    createUser(input: $input) {
+# CreateUser.graphql
+mutation CreateUser($input: UserRequestDto!, $platform: String!) {
+    createUser(input: $input, platform: $platform) {
         id
         firstName
         lastName
@@ -11,11 +12,14 @@ mutation CreateUser($input: UserRequestDto!) {
         organization
         staffs
         phoneNumber
+        refreshToken
+        accessToken
         avatarUrl
         is2FAEnabled
+        twoFASecret
         isAccountActivated
-        accessToken
-        refreshToken
         isFirstLogin
+        googleId
+        facebookId
     }
 }
